@@ -37,7 +37,7 @@ const Footer = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">JS</span>
+                <span className="text-white font-bold text-sm">AS</span>
               </div>
               <span className="text-xl font-bold">ApplySmart</span>
             </div>
