@@ -39,28 +39,28 @@ const Footer = () => {
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">JS</span>
               </div>
-              <span className="text-xl font-bold">JobSmart</span>
+              <span className="text-xl font-bold">ApplySmart</span>
             </div>
-            
+
             <p className="text-gray-300 leading-relaxed max-w-md">
               Revolutionizing job search with AI-powered automation. Find your dream job faster than ever before.
             </p>
-            
+
             <div className="space-y-3 text-gray-300">
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-blue-400" />
-                <span>contact@jobsmart.com</span>
+                <span>applysmart@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-blue-400" />
-                <span>+1 (555) 123-4567</span>
+                <span>+919212344556</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-blue-400" />
-                <span>San Francisco, CA</span>
+                <span>Uttar pradesh</span>
               </div>
             </div>
-            
+
             <div className="flex space-x-4">
               <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
                 <Facebook className="h-5 w-5" />
@@ -118,18 +118,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
-            © 2024 JobSmart. All rights reserved.
-          </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            {links.legal.map((link, index) => (
-              <a key={index} href={link.href} className="text-gray-400 hover:text-white text-sm transition-colors">
-                {link.name}
-              </a>
-            ))}
-          </div>
-        </div>
+
       </div>
     </footer>
   );

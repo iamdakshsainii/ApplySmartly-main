@@ -16,7 +16,7 @@ const Testimonials = () => {
       role: "Tea stall",
       company: "Btech chaiwala",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      content: "The resume builder is a life-saver. Loved the simplicity and how it optimized my profile for different roles.",
+      content: "i had previosly work on red light but later on suffer from aids and choose to be on tea stall but there is so much headache to find location and apply for job so ApplySmart help me with this",
       rating: 5
     },
     {
