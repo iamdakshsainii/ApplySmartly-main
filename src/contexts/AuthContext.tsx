@@ -7,9 +7,10 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<{ error: any }>;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string) => Promise<{ data?: any; error: any }>;
+  signIn: (email: string, password: string) => Promise<{ data?: any; error: any }>;
   signOut: () => Promise<void>;
+  resendConfirmation: (email: string) => Promise<{ error: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,46 +29,80 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Get initial session
+    const getInitialSession = async () => {
+      console.log('Getting initial session...');
+      const { data: { session }, error } = await supabase.auth.getSession();
+      console.log('Initial session:', session, 'Error:', error);
+
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+
+    getInitialSession();
+
+    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('Auth state change:', event, session);
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
     return () => subscription.unsubscribe();
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    const redirectUrl = `${window.location.origin}/dashboard`;
-    
-    const { error } = await supabase.auth.signUp({
+    console.log('Attempting to sign up with email:', email);
+
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: redirectUrl
+        emailRedirectTo: `${window.location.origin}/dashboard`
       }
     });
-    return { error };
+
+    console.log('Sign up result:', { data, error });
+    return { data, error };
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    console.log('Attempting to sign in with email:', email);
+
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
-    return { error };
+
+    console.log('Sign in result:', { data, error });
+    return { data, error };
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    console.log('Signing out...');
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+
+  const resendConfirmation = async (email: string) => {
+    console.log('Resending confirmation to:', email);
+
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`
+      }
+    });
+
+    console.log('Resend confirmation result:', { error });
+    return { error };
   };
 
   return (
@@ -77,7 +112,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       loading,
       signUp,
       signIn,
-      signOut
+      signOut,
+      resendConfirmation
     }}>
       {children}
     </AuthContext.Provider>

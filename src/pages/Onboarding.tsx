@@ -39,8 +39,21 @@ const Onboarding = () => {
 
   const fetchOnboardingData = async () => {
     try {
+      type OnboardingData = {
+        full_name: string;
+        desired_job_role: string;
+        desired_location: string;
+        job_experience: string;
+        expected_salary: string;
+        current_salary_range: string;
+        skills: string[] | null;
+        availability: string;
+        remote_preference: string;
+        current_step?: number;
+      };
+
       const { data, error } = await supabase
-        .from('user_onboarding')
+        .from<OnboardingData>('user_onboarding')
         .select('*')
         .eq('user_id', user?.id)
         .single();

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -23,16 +22,14 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/auth');
-      return;
+    if (user) {
+      fetchApplications();
     }
-
-    fetchApplications();
-  }, [user, navigate]);
+  }, [user]);
 
   const fetchApplications = async () => {
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .from('job_applications')
         .select('*')
@@ -59,6 +56,11 @@ const Dashboard = () => {
     offers: applications.filter(a => a.application_status === 'offer').length
   };
 
+  if (!user) {
+    navigate('/auth');
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -75,7 +77,7 @@ const Dashboard = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, {user?.email}</span>
+              <span className="text-sm text-gray-600">Welcome, {user.email}</span>
               <Button variant="outline" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
@@ -86,61 +88,28 @@ const Dashboard = () => {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
+        {/* Welcome */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
           <p className="text-gray-600">Track your job applications and manage your career journey</p>
         </div>
 
-        {/* Stats Cards */}
+        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg p-6 shadow-sm border">
-            <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Briefcase className="h-6 w-6 text-blue-600" />
-              </div>
+          {[
+            { icon: <Briefcase className="h-6 w-6 text-blue-600" />, label: 'Total Applications', value: stats.total },
+            { icon: <Calendar className="h-6 w-6 text-yellow-600" />, label: 'Pending', value: stats.pending },
+            { icon: <TrendingUp className="h-6 w-6 text-purple-600" />, label: 'Interviews', value: stats.interviews },
+            { icon: <Settings className="h-6 w-6 text-green-600" />, label: 'Offers', value: stats.offers },
+          ].map((stat, idx) => (
+            <div key={idx} className="bg-white rounded-lg p-6 shadow-sm border flex items-center">
+              <div className="p-2 rounded-lg bg-opacity-20">{stat.icon}</div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Applications</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                <p className="text-sm font-medium text-gray-600">{stat.label}</p>
+                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
               </div>
             </div>
-          </div>
-
-          <div className="bg-white rounded-lg p-6 shadow-sm border">
-            <div className="flex items-center">
-              <div className="p-2 bg-yellow-100 rounded-lg">
-                <Calendar className="h-6 w-6 text-yellow-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg p-6 shadow-sm border">
-            <div className="flex items-center">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <TrendingUp className="h-6 w-6 text-purple-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Interviews</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.interviews}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg p-6 shadow-sm border">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <Settings className="h-6 w-6 text-green-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Offers</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.offers}</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Quick Actions */}

@@ -1,4 +1,3 @@
-
 import { Zap, FileText, Filter, Target, Clock, Shield } from "lucide-react";
 
 const Features = () => {
@@ -55,18 +54,18 @@ const Features = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div 
+            <div
               key={index}
               className="group p-8 rounded-2xl border border-gray-100 hover:border-gray-200 bg-white hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
             >
               <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${feature.gradient} text-white mb-6 group-hover:scale-110 transition-transform`}>
                 {feature.icon}
               </div>
-              
+
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 {feature.title}
               </h3>
-              
+
               <p className="text-gray-600 leading-relaxed">
                 {feature.description}
               </p>
