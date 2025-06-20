@@ -7,7 +7,7 @@ const Testimonials = () => {
       name: "Daksh Saini",
       role: "Software Engineer",
       company: "Amazon",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      image: "/img3.jpeg",
       content: "JobSmart helped me get my dream job in just two weeks! The automation feature saved me hours of manual applications.",
       rating: 5
     },
@@ -15,7 +15,7 @@ const Testimonials = () => {
       name: "Himanshu chaudhary",
       role: "Tea stall",
       company: "Btech chaiwala",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      image: "images.png",
       content: "i had previosly work on red light but later on suffer from aids and choose to be on tea stall but there is so much headache to find location and apply for job so ApplySmart help me with this",
       rating: 5
     },
@@ -23,7 +23,7 @@ const Testimonials = () => {
       name: "Alankrit",
       role: "UX Designer",
       company: "Design Studio",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+      image: "/img2.jpg",
       content: "I applied to 30 jobs with one click. Super fast and effective. Got 3 interviews in the first week!",
       rating: 5
     }
